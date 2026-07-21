@@ -1,0 +1,318 @@
+// PricingCard.scss
+@use 'sass:math';
+@use '../../styles/variables' as *;
+
+@mixin slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $color-strong-cyan;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='13'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath fill='%23FFF' d='M16 0l6 6.5-6 6.5zM6 0L0 6.5 6 13z'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: $shadow-thumb;
+    cursor: grab;
+    border: none;
+    transition: $transition-default;
+
+    &:hover {
+        background-color: lighten($color-strong-cyan, 8%);
+        box-shadow: 0px 15px 30px rgba(16, 185, 129, 0.6);
+    }
+
+    &:active {
+        cursor: grabbing;
+        background-color: darken($color-strong-cyan, 8%);
+    }
+}
+
+@mixin slider-track {
+    width: 100%;
+    height: 8px;
+    border-radius: $pill-radius;
+    cursor: pointer;
+}
+
+.pricing-card {
+    width: 100%;
+    max-width: 540px;
+    background-color: $color-white;
+    border-radius: $card-radius;
+    box-shadow: $shadow-card;
+    padding: 32px 24px;
+    font-family: $font-primary;
+    color: $color-grayish-blue;
+    box-sizing: border-box;
+
+    @media (min-width: 600px) {
+        padding: 48px;
+    }
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 32px;
+
+        @media (min-width: 600px) {
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+    }
+
+    &__pageviews {
+        font-size: 13px;
+        font-weight: $font-weight-extra-bold;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: $color-grayish-blue;
+    }
+
+    &__price-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__price {
+        font-size: 32px;
+        font-weight: $font-weight-extra-bold;
+        color: $color-dark-desaturated-blue;
+
+        @media (min-width: 600px) {
+            font-size: 40px;
+        }
+    }
+
+    &__period {
+        font-size: 14px;
+        font-weight: $font-weight-semi-bold;
+        color: $color-grayish-blue;
+    }
+
+    &__slider-container {
+        width: 100%;
+        margin-bottom: 36px;
+    }
+
+    .custom-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        background: transparent;
+        outline: none;
+        cursor: pointer;
+
+        &::-webkit-slider-thumb {
+            @include slider-thumb;
+            margin-top: -16px;
+        }
+
+        &::-moz-range-thumb {
+            @include slider-thumb;
+        }
+
+        &::-webkit-slider-runnable-track {
+            @include slider-track;
+            background: linear-gradient(to right,
+                    $color-soft-cyan var(--progress, 50%),
+                    $color-light-grayish-blue-1 var(--progress, 50%));
+        }
+
+        &::-moz-range-track {
+            @include slider-track;
+            background: $color-light-grayish-blue-1;
+        }
+
+        &::-moz-range-progress {
+            height: 8px;
+            background-color: $color-soft-cyan;
+            border-radius: $pill-radius;
+        }
+    }
+
+    &__billing {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 32px;
+        font-size: 12px;
+
+        @media (min-width: 600px) {
+            font-size: 13px;
+            gap: 16px;
+        }
+    }
+
+    &__billing-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: $color-grayish-blue;
+        font-weight: $font-weight-semi-bold;
+    }
+
+    &__badge {
+        background-color: $color-light-grayish-red;
+        color: $color-light-red;
+        font-size: 10px;
+        font-weight: $font-weight-extra-bold;
+        padding: 2px 8px;
+        border-radius: $pill-radius;
+
+        &::after {
+            content: ' discount';
+            display: none;
+
+            @media (min-width: 600px) {
+                display: inline;
+            }
+        }
+    }
+
+    &__switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 22px;
+
+        input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+
+            &:checked+.pricing-card__switch-slider {
+                background-color: $color-strong-cyan;
+
+                &::before {
+                    transform: translateX(22px);
+                }
+            }
+
+            &:focus+.pricing-card__switch-slider {
+                box-shadow: 0 0 0 2px $color-soft-cyan;
+            }
+        }
+
+        &-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: $color-light-grayish-blue-2;
+            border-radius: $pill-radius;
+            transition: $transition-default;
+
+            &::before {
+                position: absolute;
+                content: '';
+                height: 14px;
+                width: 14px;
+                left: 4px;
+                bottom: 4px;
+                background-color: $color-white;
+                border-radius: 50%;
+                transition: $transition-default;
+            }
+
+            &:hover {
+                background-color: $color-strong-cyan;
+            }
+        }
+    }
+
+    &__divider {
+        border: none;
+        border-top: 1px solid $color-light-grayish-blue-1;
+        margin: 0 -24px 24px -24px;
+
+        @media (min-width: 600px) {
+            margin: 0 -48px 32px -48px;
+        }
+    }
+
+    &__footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+
+        @media (min-width: 600px) {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+
+    &__features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+
+        @media (min-width: 600px) {
+            align-items: flex-start;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 12px;
+            color: $color-grayish-blue;
+        }
+    }
+
+    &__cta {
+        background-color: $color-dark-desaturated-blue;
+        color: $color-pale-blue;
+        border: none;
+        border-radius: $pill-radius;
+        padding: 12px 46px;
+        font-family: $font-primary;
+        font-size: 12px;
+        font-weight: $font-weight-extra-bold;
+        cursor: pointer;
+        transition: $transition-default;
+
+        &:hover {
+            color: $color-white;
+        }
+    }
+}
+
+@keyframes pricePop {
+    0% {
+        opacity: 0.3;
+        transform: scale(0.9) translateY(-4px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.pricing-card {
+    &__price {
+        display: inline-block;
+        font-size: 32px;
+        font-weight: $font-weight-extra-bold;
+        color: $color-dark-desaturated-blue;
+
+        animation: pricePop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+        @media (min-width: 600px) {
+            font-size: 40px;
+        }
+    }
+}
