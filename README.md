@@ -1,16 +1,40 @@
-# React + Vite
+# Interactive SaaS Pricing Component
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A responsive, interactive pricing component developed using **React** and **SCSS**. The component dynamically calculates pricing plans based on user-selected pageview tiers via a custom slider and toggles between monthly and yearly billing options.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Technical Overview
 
-## React Compiler
+This project focuses on state management in React, cross-browser form element styling, and bridging JavaScript state with CSS Custom Properties for real-time visual feedback.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Key Features
 
-## Expanding the Oxlint configuration
+* **Dynamic Pricing Calculation:** Calculates price based on selected pageview tier (10K, 50K, 100K, 500K, 1M) and selected billing interval.
+* **Annual Billing Discount:** Applies a 25% discount logic when yearly billing is selected.
+* **Custom Range Slider:** Implements uniform styling across WebKit and Gecko browser engines using SCSS mixins.
+* **Dynamic Track Fill:** Updates slider background fill dynamically via inline CSS Custom Properties (`--progress`).
+* **Responsive Design:** Adaptive layout implemented using CSS Media Queries following mobile-first principles.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+---
+
+## Tech Stack
+
+* **Frontend Library:** React.js (Vite)
+* **Styling:** SCSS / Sass (BEM methodology, Sass Modules `@use`)
+* **Build Tool:** Vite
+
+---
+
+## Project Structure
+
+```text
+src/
+├── components/
+│   └── PricingCard/
+│       ├── PricingCard.jsx
+│       └── PricingCard.scss
+├── styles/
+│   └── _variables.scss
+├── App.jsx
+└── main.jsx
